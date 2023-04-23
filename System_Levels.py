@@ -11,13 +11,14 @@ def plot_levels():
         st.bar_chart(df, width=640, height=500, x="Frequency (MHz)", y="Level (dBmV)")
         st.info(f"Total Power is :green[{fu.total_power(y)}] dBmV")
 
+
 st.set_page_config(page_title="System Levels", layout="wide")
 col3, col4 = st.columns(2)
 with col3:
     st.title("System Levels")
     st.subheader(":green[A Web APP to calculate CATV system levels.]")
 with col4:
-    st.image("icon.ico", width=80)
+    st.image("CommScope_4C_shadow_logo.png", width=400)
 st.divider()
 
 
@@ -25,11 +26,11 @@ col1, col2 = st.columns(2)
 
 
 with col1:
-    HF = st.text_input("Enter High Pilot Frequency (MHz)", key="HF", value=1218)
-    HFL = st.text_input("Enter High Pilot Level (dBmV)", key="HFL", value=52)
+    HF = st.number_input("Enter High Pilot Frequency (MHz)", key="HF", value=1218, min_value=54)
+    HFL = st.number_input("Enter High Pilot Level (dBmV)", key="HFL", value=52)
     st.divider()
-    LF = st.text_input("Enter Low Pilot Frequency (MHz)", key="LF", value=54)
-    LFL = st.text_input("Enter Low Pilot Level (dBmV)", key="LFL", value=35)
+    LF = st.number_input("Enter Low Pilot Frequency (MHz)", key="LF", value=54, min_value=54)
+    LFL = st.number_input("Enter Low Pilot Level (dBmV)", key="LFL", value=35)
     SPLIT = st.selectbox("Select Split", options=["Low", "Mid", "High"], key="SPLIT")
     Calc = st.button("Plot", key='calculate', on_click=plot_levels, type="primary")
 
@@ -43,7 +44,7 @@ if checkbox:
 
 st.divider()
 st.subheader(":green[Find Frequency]")
-FIND_FQ = st.text_input("Enter Frequency (MHz)", key="FIND_FQ")
+FIND_FQ = st.number_input("Enter Frequency (MHz)", key="FIND_FQ")
 try:
     st.info(f"Level at {FIND_FQ} MHz is:     :green[{fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_FQ), SPLIT)[1]}] dBmV")
 except ValueError:
@@ -51,8 +52,8 @@ except ValueError:
 
 st.divider()
 st.subheader(":green[Find Tilt]")
-FIND_LP = st.text_input("Enter Low Pilot (MHz)", key="FIND_LP")
-FIND_HP = st.text_input("Enter High Pilot (MHz)", key="FIND_HP")
+FIND_LP = st.number_input("Enter Low Pilot (MHz)", key="FIND_LP", min_value=54)
+FIND_HP = st.number_input("Enter High Pilot (MHz)", key="FIND_HP")
 try:
     tilt = fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_HP), SPLIT)[1] - fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_LP), SPLIT)[1]
     st.info(f"Tilt between :red[{FIND_LP}] MHz and :red[{FIND_HP}] MHz is:     :green[{round(tilt, 4)}] dB")
@@ -61,13 +62,13 @@ except ValueError:
 
 st.divider()
 st.subheader(":green[Frequency $\Longleftrightarrow$ Channel Converter]")
-FIND_CH = st.text_input("Enter Frequency (MHz)", key="FIND_CH")
+FIND_CH = st.number_input("Enter Frequency (MHz)", key="FIND_CH")
 try:
     CH_NUMBER = fu.find_channel(float(FIND_CH))
     st.info(f"Channel number is :    :green[{CH_NUMBER}]")
 except ValueError:
     pass
-FIND_FREQ = st.text_input("Enter Channel Number", key="FIND_FREQ")
+FIND_FREQ = st.number_input("Enter Channel Number", key="FIND_FREQ", min_value=2)
 try:
     FREQUENCY = fu.find_freq(float(FIND_FREQ))
     st.info(f"QAM Center Frequency is :    :green[{FREQUENCY}] MHz  -  Analog Carrier Frequency is :    :green[{FREQUENCY-1.75}] MHz")
