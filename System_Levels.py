@@ -32,7 +32,7 @@ with col1:
     LF = st.number_input("Enter Low Pilot Frequency (MHz)", key="LF", value=54, min_value=54)
     LFL = st.number_input("Enter Low Pilot Level (dBmV)", key="LFL", value=35)
     SPLIT = st.selectbox("Select Split", options=["Low", "Mid", "High"], key="SPLIT")
-    Calc = st.button("Plot", key='calculate', on_click=plot_levels, type="primary")
+    Calc = st.button("Show Plot", key='calculate', on_click=plot_levels, type="primary")
 
 checkbox = st.checkbox("Display Data Points")
 if checkbox:
