@@ -11,11 +11,16 @@ def plot_levels():
         st.bar_chart(df, width=640, height=500, x="Frequency (MHz)", y="Level (dBmV)")
         st.info(f"Total Power is :green[{fu.total_power(y)}] dBmV")
 
-
 st.set_page_config(page_title="System Levels", layout="wide")
-st.title("System Levels")
-st.subheader(":green[ A CATV system levels calculator web app]")
+col3, col4 = st.columns(2)
+with col3:
+    st.title("System Levels")
+    st.subheader(":green[A Web APP to calculate CATV system levels.]")
+with col4:
+    st.image("icon.ico", width=80)
 st.divider()
+
+
 col1, col2 = st.columns(2)
 
 
@@ -27,6 +32,14 @@ with col1:
     LFL = st.text_input("Enter Low Pilot Level (dBmV)", key="LFL", value=35)
     SPLIT = st.selectbox("Select Split", options=["Low", "Mid", "High"], key="SPLIT")
     Calc = st.button("Plot", key='calculate', on_click=plot_levels, type="primary")
+
+checkbox = st.checkbox("Display Data Points")
+if checkbox:
+    divisor = st.divider()
+    x, y = fu.system_levels2(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
+    df = pd.DataFrame(list(zip(x, y)), columns=["Frequency (MHz)", "Level (dBmV)"])
+    data_frame_display = st.dataframe(df)
+
 
 st.divider()
 st.subheader(":green[Find Frequency]")
