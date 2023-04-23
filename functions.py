@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def system_levels(high_freq, tilt_at_high_freq, carrier_level, carrier_freq, split_arg="Low"):
+def system_levels(high_freq, tilt_at_high_freq, carrier_freq, carrier_level, split_arg="Low"):
     split = {"Low": (42, 54),
              "Mid": (85, 102),
              "High": (204, 254)}

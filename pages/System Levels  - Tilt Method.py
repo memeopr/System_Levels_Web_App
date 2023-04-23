@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def plot_levels():
-    x, y = fu.system_levels2(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
+    x, y = fu.system_levels(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
     df = pd.DataFrame(list(zip(x, y)), columns=["Frequency (MHz)", "Level (dBmV)"])
     with col2:
         st.subheader(":blue[_System Levels vs Frequency_]")
@@ -12,7 +12,7 @@ def plot_levels():
         st.info(f"Total Power is :green[{fu.total_power(y)}] dBmV")
 
 
-st.set_page_config(page_title="System Levels", layout="wide", initial_sidebar_state='collapsed')
+st.set_page_config(page_title="System Levels Tilt method", layout="wide", initial_sidebar_state='collapsed')
 col3, col4 = st.columns(2)
 with col3:
     st.title("System Levels")
@@ -26,18 +26,18 @@ col1, col2 = st.columns(2)
 
 
 with col1:
-    HF = st.number_input("Enter High Pilot Frequency (MHz)", key="HF", value=1218, min_value=54)
-    HFL = st.number_input("Enter High Pilot Level (dBmV)", key="HFL", value=52)
+    HF = st.number_input("Enter High Frequency (MHz)", key="HF", value=1218, min_value=54)
+    HFL = st.number_input("Enter Tilt at High Frequency (dB)", key="HFL", value=17)
     st.divider()
-    LF = st.number_input("Enter Low Pilot Frequency (MHz)", key="LF", value=54, min_value=54)
-    LFL = st.number_input("Enter Low Pilot Level (dBmV)", key="LFL", value=35)
+    LF = st.number_input("Enter Carrier Frequency (MHz)", key="LF", value=1218, min_value=54)
+    LFL = st.number_input("Enter Level at Carrier Frequency (dBmV)", key="LFL", value=52)
     SPLIT = st.selectbox("Select Split", options=["Low", "Mid", "High"], key="SPLIT")
     Calc = st.button("Show Plot", key='calculate', on_click=plot_levels, type="primary")
 
 checkbox = st.checkbox("Display Data Points")
 if checkbox:
     divisor = st.divider()
-    x, y = fu.system_levels2(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
+    x, y = fu.system_levels(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
     df = pd.DataFrame(list(zip(x, y)), columns=["Frequency (MHz)", "Level (dBmV)"])
     data_frame_display = st.dataframe(df)
 
@@ -46,7 +46,7 @@ st.divider()
 st.subheader(":green[Find Frequency]")
 FIND_FQ = st.number_input("Enter Frequency (MHz)", key="FIND_FQ")
 try:
-    st.info(f"Level at {FIND_FQ} MHz is:     :green[{fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_FQ), SPLIT)[1]}] dBmV")
+    st.info(f"Level at {FIND_FQ} MHz is:     :green[{fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_FQ), SPLIT)[1]}] dBmV")
 except ValueError:
     pass
 
@@ -55,7 +55,7 @@ st.subheader(":green[Find Tilt]")
 FIND_LP = st.number_input("Enter Low Pilot (MHz)", key="FIND_LP", min_value=54)
 FIND_HP = st.number_input("Enter High Pilot (MHz)", key="FIND_HP")
 try:
-    tilt = fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_HP), SPLIT)[1] - fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_LP), SPLIT)[1]
+    tilt = fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_HP), SPLIT)[1] - fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_LP), SPLIT)[1]
     st.info(f"Tilt between :red[{FIND_LP}] MHz and :red[{FIND_HP}] MHz is:     :green[{round(tilt, 4)}] dB")
 except ValueError:
     pass
