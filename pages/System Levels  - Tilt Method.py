@@ -31,10 +31,10 @@ col1, col2 = st.columns(2)
 
 with col1:
     HF = st.number_input("Enter High Frequency (MHz)", key="HF", value=1218, min_value=54, step=step_size_freq)
-    HFL = st.number_input("Enter Tilt at High Frequency (dB)", key="HFL", value=17)
+    HFL = st.number_input("Enter Tilt at High Frequency (dB)", key="HFL", value=17, step=step_size_ch)
     st.divider()
     LF = st.number_input("Enter Carrier Frequency (MHz)", key="LF", value=1218, min_value=54, step=step_size_freq)
-    LFL = st.number_input("Enter Level at Carrier Frequency (dBmV)", key="LFL", value=52)
+    LFL = st.number_input("Enter Level at Carrier Frequency (dBmV)", key="LFL", value=52, step=step_size_ch)
     SPLIT = st.selectbox("Select Split", options=["Low", "Mid", "High"], key="SPLIT")
     Calc = st.button("Show Plot", key='calculate', on_click=plot_levels, type="primary")
 
@@ -72,7 +72,7 @@ try:
     st.info(f"Channel number is :    :green[{CH_NUMBER}]")
 except ValueError:
     pass
-FIND_FREQ = st.number_input("Enter Channel Number", key="FIND_FREQ", min_value=2)
+FIND_FREQ = st.number_input("Enter Channel Number", key="FIND_FREQ", min_value=2, step=step_size_ch)
 try:
     FREQUENCY = fu.find_freq(float(FIND_FREQ))
     st.info(f"QAM Center Frequency is :    :green[{FREQUENCY}] MHz  -  Analog Carrier Frequency is :    :green[{FREQUENCY-1.75}] MHz")
