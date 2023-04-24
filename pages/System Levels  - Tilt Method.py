@@ -30,10 +30,10 @@ col1, col2 = st.columns(2)
 
 
 with col1:
-    HF = st.number_input("Enter High Frequency (MHz)", key="HF", value=1218, min_value=54)
+    HF = st.number_input("Enter High Frequency (MHz)", key="HF", value=1218, min_value=54, step=step_size_freq)
     HFL = st.number_input("Enter Tilt at High Frequency (dB)", key="HFL", value=17)
     st.divider()
-    LF = st.number_input("Enter Carrier Frequency (MHz)", key="LF", value=1218, min_value=54)
+    LF = st.number_input("Enter Carrier Frequency (MHz)", key="LF", value=1218, min_value=54, step=step_size_freq)
     LFL = st.number_input("Enter Level at Carrier Frequency (dBmV)", key="LFL", value=52)
     SPLIT = st.selectbox("Select Split", options=["Low", "Mid", "High"], key="SPLIT")
     Calc = st.button("Show Plot", key='calculate', on_click=plot_levels, type="primary")
@@ -48,7 +48,7 @@ if checkbox:
 
 st.divider()
 st.subheader(":green[Find Frequency]")
-FIND_FQ = st.number_input("Enter Frequency (MHz)", key="FIND_FQ")
+FIND_FQ = st.number_input("Enter Frequency (MHz)", key="FIND_FQ", step=step_size_freq)
 try:
     st.info(f"Level at {FIND_FQ} MHz is:     :green[{round(fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_FQ), SPLIT)[1], digits)}] dBmV")
 except ValueError:
@@ -56,8 +56,8 @@ except ValueError:
 
 st.divider()
 st.subheader(":green[Find Tilt]")
-FIND_LP = st.number_input("Enter Low Pilot (MHz)", key="FIND_LP", min_value=54)
-FIND_HP = st.number_input("Enter High Pilot (MHz)", key="FIND_HP")
+FIND_LP = st.number_input("Enter Low Pilot (MHz)", key="FIND_LP", min_value=54, step=step_size_freq)
+FIND_HP = st.number_input("Enter High Pilot (MHz)", key="FIND_HP", step=step_size_freq)
 try:
     tilt = fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_HP), SPLIT)[1] - fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_LP), SPLIT)[1]
     st.info(f"Tilt between :red[{FIND_LP}] MHz and :red[{FIND_HP}] MHz is:     :green[{round(tilt, digits)}] dB")
@@ -66,7 +66,7 @@ except ValueError:
 
 st.divider()
 st.subheader(":green[Frequency $\Longleftrightarrow$ Channel Converter]")
-FIND_CH = st.number_input("Enter Frequency (MHz)", key="FIND_CH")
+FIND_CH = st.number_input("Enter Frequency (MHz)", key="FIND_CH", step=step_size_freq)
 try:
     CH_NUMBER = fu.find_channel(float(FIND_CH))
     st.info(f"Channel number is :    :green[{CH_NUMBER}]")
