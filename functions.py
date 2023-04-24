@@ -217,7 +217,7 @@ def system_levels(high_freq, tilt_at_high_freq, carrier_freq, carrier_level, spl
     return freq, level
 
 
-def mystery_freq(high_freq, tilt_at_high_freq, carrier_level, carrier_freq, freq, split_arg="Low"):
+def mystery_freq(high_freq, tilt_at_high_freq, carrier_freq, carrier_level, freq, split_arg="Low"):
     split = {"Low": (42, 54),
              "Mid": (85, 102),
              "High": (204, 254)}
