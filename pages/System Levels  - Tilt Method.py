@@ -2,6 +2,8 @@ import streamlit as st
 import functions as fu
 import pandas as pd
 
+digits = 2
+
 
 def plot_levels():
     x, y = fu.system_levels(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
@@ -9,7 +11,7 @@ def plot_levels():
     with col2:
         st.subheader(":blue[_System Levels vs Frequency_]")
         st.bar_chart(df, width=640, height=500, x="Frequency (MHz)", y="Level (dBmV)")
-        st.info(f"Total Power is :green[{fu.total_power(y)}] dBmV")
+        st.info(f"Total Power is :green[{roun(fu.total_power(y), digits)}] dBmV")
 
 
 st.set_page_config(page_title="System Levels Tilt method", layout="wide", initial_sidebar_state='collapsed')
@@ -46,7 +48,7 @@ st.divider()
 st.subheader(":green[Find Frequency]")
 FIND_FQ = st.number_input("Enter Frequency (MHz)", key="FIND_FQ")
 try:
-    st.info(f"Level at {FIND_FQ} MHz is:     :green[{fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_FQ), SPLIT)[1]}] dBmV")
+    st.info(f"Level at {FIND_FQ} MHz is:     :green[{round(fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_FQ), SPLIT)[1], digits)}] dBmV")
 except ValueError:
     pass
 
@@ -56,7 +58,7 @@ FIND_LP = st.number_input("Enter Low Pilot (MHz)", key="FIND_LP", min_value=54)
 FIND_HP = st.number_input("Enter High Pilot (MHz)", key="FIND_HP")
 try:
     tilt = fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_HP), SPLIT)[1] - fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_LP), SPLIT)[1]
-    st.info(f"Tilt between :red[{FIND_LP}] MHz and :red[{FIND_HP}] MHz is:     :green[{round(tilt, 4)}] dB")
+    st.info(f"Tilt between :red[{FIND_LP}] MHz and :red[{FIND_HP}] MHz is:     :green[{round(tilt, digits)}] dB")
 except ValueError:
     pass
 
