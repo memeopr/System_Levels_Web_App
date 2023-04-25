@@ -30,11 +30,11 @@ col1, col2 = st.columns(2)
 
 
 with col1:
-    HF = st.number_input("Enter High Pilot Frequency (MHz)", key="HF", value=1218, min_value=54, step=step_size_freq)
-    HFL = st.number_input("Enter High Pilot Level (dBmV)", key="HFL", value=52, step=step_size_ch)
+    HF = st.number_input("Enter High Balancing Carrier's Frequency (MHz)", key="HF", value=1218, min_value=54, step=step_size_freq)
+    HFL = st.number_input("Enter High Balancing Carrier's Level (dBmV)", key="HFL", value=52, step=step_size_ch)
     st.divider()
-    LF = st.number_input("Enter Low Pilot Frequency (MHz)", key="LF", value=54, min_value=54, step=step_size_freq)
-    LFL = st.number_input("Enter Low Pilot Level (dBmV)", key="LFL", value=35, step=step_size_ch)
+    LF = st.number_input("Enter Low Balancing Carrier's Frequency (MHz)", key="LF", value=54, min_value=54, step=step_size_freq)
+    LFL = st.number_input("Enter Low Balancing Carrier's Level (dBmV)", key="LFL", value=35, step=step_size_ch)
     SPLIT = st.selectbox("Select Split", options=["Low", "Mid", "High"], key="SPLIT")
     Calc = st.button("Show Plot", key='calculate', on_click=plot_levels, type="primary")
 
@@ -56,8 +56,8 @@ except ValueError:
 
 st.divider()
 st.subheader(":green[Find Tilt]")
-FIND_LP = st.number_input("Enter Low Pilot (MHz)", key="FIND_LP", min_value=54, step=step_size_freq)
-FIND_HP = st.number_input("Enter High Pilot (MHz)", key="FIND_HP", step=step_size_freq)
+FIND_LP = st.number_input("Enter Low  Carrier's Frequency (MHz)", key="FIND_LP", min_value=54, step=step_size_freq)
+FIND_HP = st.number_input("Enter High  Carrier's Frequency (MHz)", key="FIND_HP", step=step_size_freq)
 try:
     tilt = fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_HP), SPLIT)[1] - fu.mystery_freq2(float(HF), float(HFL), float(LF), float(LFL), float(FIND_LP), SPLIT)[1]
     st.info(f"Tilt between :red[{FIND_LP}] MHz and :red[{FIND_HP}] MHz is:     :green[{round(tilt, digits)}] dB")

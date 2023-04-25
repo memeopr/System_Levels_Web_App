@@ -56,8 +56,8 @@ except ValueError:
 
 st.divider()
 st.subheader(":green[Find Tilt]")
-FIND_LP = st.number_input("Enter Low Pilot (MHz)", key="FIND_LP", min_value=54, step=step_size_freq)
-FIND_HP = st.number_input("Enter High Pilot (MHz)", key="FIND_HP", step=step_size_freq)
+FIND_LP = st.number_input("Enter Low  Carrier's Frequency (MHz)", key="FIND_LP", min_value=54, step=step_size_freq)
+FIND_HP = st.number_input("Enter High  Carrier's Frequency (MHz)", key="FIND_HP", step=step_size_freq)
 try:
     tilt = fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_HP), SPLIT)[1] - fu.mystery_freq(float(HF), float(HFL), float(LF), float(LFL), float(FIND_LP), SPLIT)[1]
     st.info(f"Tilt between :red[{FIND_LP}] MHz and :red[{FIND_HP}] MHz is:     :green[{round(tilt, digits)}] dB")
