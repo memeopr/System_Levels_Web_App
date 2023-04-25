@@ -22,7 +22,7 @@ with col3:
     st.title("System Levels")
     st.subheader(":green[A Web APP to calculate CATV system levels.]")
 with col4:
-    st.image("sys_lev.png", width=600)
+    st.image("sys_lev.png", width=400)
 st.divider()
 
 
