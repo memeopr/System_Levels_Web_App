@@ -79,11 +79,11 @@ with col1:
     chart1 = alt.Chart(coax, height=600).mark_line(strokeDash=[5,5], color="BlueViolet").encode(
         alt.X("Frequency:O", title="Frequency (MHz)"),
         alt.Y(coax_selected + " at 68F", title="Attenuation (dB)")
-    ).interactive()
+    )
     chart2 = alt.Chart(coax, height=600).mark_line().encode(
         alt.X("Frequency:O", title="Frequency (MHz)"),
         alt.Y(coax_selected, title="Attenuation (dB)")
-    ).interactive()
+    )
 
     st.altair_chart(chart1 + chart2, use_container_width=True, theme="streamlit")
 
