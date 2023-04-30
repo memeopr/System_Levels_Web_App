@@ -3,7 +3,6 @@ import pandas as pd
 import altair as alt
 import functions as fu
 
-
 if "HFL_" not in st.session_state:
     if "HFL2_" not in st.session_state:
         for k in st.session_state.keys():
@@ -119,6 +118,17 @@ with col1:
             st.divider()
             x, y = fu.system_levels2(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
             df = pd.DataFrame(list(zip(x, y)), columns=["Frequency (MHz)", "Level (dBmV)"])
+
+            coax_Freq_Modified = coax[coax["Frequency"].isin(x)]
+            st.dataframe(coax_Freq_Modified)
+            st.write(x)
+
+            st.subheader(f":blue[System Levels vs Frequency]")
+
+            distance_slider = st.slider(":blue[Distance Slider - Move Slider to see Effect on System Levels]",
+                                        min_value=0,
+                                        max_value=int(distance), value=0)
+
             st.bar_chart(df, width=640, height=500, x="Frequency (MHz)", y="Level (dBmV)")
         elif ("HF2" in st.session_state) or ("HF2_" in st.session_state):
             if "HF2" in st.session_state:
@@ -136,6 +146,16 @@ with col1:
             st.divider()
             x, y = fu.system_levels(float(HF), float(HFL), float(LF), float(LFL), SPLIT)
             df = pd.DataFrame(list(zip(x, y)), columns=["Frequency (MHz)", "Level (dBmV)"])
+
+            coax_Freq_Modified = coax[coax["Frequency"].isin(x)]
+            st.dataframe(coax_Freq_Modified)
+            st.write(x)
+
+            st.subheader(f":blue[System Levels vs Frequency]")
+
+            distance_slider = st.slider(":blue[Distance Slider - Move Slider to see Effect on System Levels]",
+                                        min_value=0,
+                                        max_value=int(distance), value=0)
             st.bar_chart(df, width=640, height=500, x="Frequency (MHz)", y="Level (dBmV)")
 
 with col2:
