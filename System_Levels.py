@@ -2,9 +2,15 @@ import streamlit as st
 import functions as fu
 import pandas as pd
 
+
+st.set_page_config(page_title="System Levels", layout="wide", initial_sidebar_state='expanded')
+
 digits = 2
 step_size_freq = 6
 step_size_ch = 1
+
+
+
 
 if ("HF2" in st.session_state) or ("HF2_" in st.session_state):
     st.session_state.clear()
@@ -19,7 +25,6 @@ def plot_levels():
         st.info(f"Total Power is :green[{round(fu.total_power(y), digits)}] dBmV")
 
 
-st.set_page_config(page_title="System Levels", layout="wide", initial_sidebar_state='expanded')
 col3, col4 = st.columns(2)
 with col3:
     st.title("System Levels")
@@ -83,3 +88,4 @@ try:
         f"QAM Center Frequency is :    :green[{FREQUENCY}] MHz  -  Analog Carrier Frequency is :    :green[{FREQUENCY - 1.75}] MHz")
 except ValueError:
     pass
+

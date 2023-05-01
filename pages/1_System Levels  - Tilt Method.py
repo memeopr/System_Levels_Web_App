@@ -2,9 +2,15 @@ import streamlit as st
 import functions as fu
 import pandas as pd
 
+st.set_page_config(page_title="System Levels", layout="wide", initial_sidebar_state='expanded')
+
+
 digits = 2
 step_size_freq = 6
 step_size_ch = 1
+
+
+
 
 if ("HF" in st.session_state) or ("HF_" in st.session_state):
     st.session_state.clear()
@@ -19,7 +25,7 @@ def plot_levels():
         st.info(f"Total Power is :green[{round(fu.total_power(y), digits)}] dBmV")
 
 
-st.set_page_config(page_title="System Levels Tilt Method", layout="wide", initial_sidebar_state='expanded')
+# st.set_page_config(page_title="System Levels Tilt Method", layout="wide", initial_sidebar_state='expanded')
 col3, col4 = st.columns(2)
 with col3:
     st.title("System Levels")
@@ -31,7 +37,7 @@ st.divider()
 col1, col2 = st.columns(2)
 
 with col1:
-    HF = st.number_input("Enter High Frequency (MHz)", key="HF2", value=1218, min_value=54, step=step_size_freq)
+    HF = st.number_input("Enter High Frequency (MHz)", key="HF2", value=1000, min_value=54, step=step_size_freq)
     HFL = st.number_input("Enter Tilt at High Frequency (dB)", key="HFL2", value=17, step=step_size_ch)
     st.divider()
     LF = st.number_input("Enter Carrier Frequency (MHz)", key="LF2", value=1218, min_value=54, step=step_size_freq)
@@ -81,3 +87,4 @@ try:
         f"QAM Center Frequency is :    :green[{FREQUENCY}] MHz  -  Analog Carrier Frequency is :    :green[{FREQUENCY - 1.75}] MHz")
 except ValueError:
     pass
+
