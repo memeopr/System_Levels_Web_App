@@ -98,11 +98,11 @@ with col1:
             coax = coax[(coax["Frequency"] >= 254) & (coax["Frequency"] <= 1218)]
 
     chart1 = alt.Chart(coax, height=500).mark_line(strokeDash=[5, 5], color="BlueViolet").encode(
-        alt.X("Frequency:O", title="Frequency (MHz)"),
+        alt.X("Frequency", title="Frequency (MHz)"),
         alt.Y(coax_selected + " at 68F", title="Attenuation (dB)")
     )
     chart2 = alt.Chart(coax, height=500).mark_line().encode(
-        alt.X("Frequency:O", title="Frequency (MHz)"),
+        alt.X("Frequency", title="Frequency (MHz)"),
         alt.Y(coax_selected, title="Attenuation (dB)")
     )
 
