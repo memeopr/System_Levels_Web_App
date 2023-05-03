@@ -27,7 +27,7 @@ def temp_change(x, temp_arg):
 
 @st.cache_data
 def load_cable_data_100f():
-    return pd.read_csv("new_coax_db_per_100_meters.csv", encoding="UTF-8")
+    return pd.read_csv("new_coax_db_per_100_feet.csv", encoding="UTF-8")
 
 
 @st.cache_data
