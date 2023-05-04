@@ -130,7 +130,7 @@ with col1:
         alt.Y(coax_selected, title="Attenuation (dB)")
     )
 
-    st.altair_chart(chart1 + chart2, use_container_width=True, theme="streamlit")
+    my_chart = st.altair_chart(chart1 + chart2, use_container_width=True, theme="streamlit")
     start_btn = st.button('Show Temperature Change Animation')
 
     if start_btn:
