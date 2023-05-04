@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import functions as fu
+import time
 
 st.set_page_config(page_title="Coax Web APP", layout="wide", initial_sidebar_state='expanded')
 
