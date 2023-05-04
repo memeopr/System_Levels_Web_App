@@ -11,6 +11,20 @@ if "HFL_" not in st.session_state:
             st.session_state[f"{k}_"] = st.session_state[k]
 
 
+def plot_animation(coax, temp):
+    coax[coax_selected] = coax[coax_selected].map(lambda x: temp_change(x, temp))
+    charta = alt.Chart(coax, height=500).mark_line(strokeDash=[5, 5], color="BlueViolet").encode(
+        alt.X("Frequency", title="Frequency (MHz)"),
+        alt.Y(coax_selected + " at 68F", title="Attenuation (dB)")
+    )
+    chartb = alt.Chart(coax, height=500).mark_line().encode(
+        alt.X("Frequency", title="Frequency (MHz)"),
+        alt.Y(coax_selected, title="Attenuation (dB)")
+    )
+    chartc = charta + chartb
+    return chartc
+
+
 def save_states():
     if "new_HFL" not in st.session_state:
         for k in st.session_state.keys():
@@ -116,6 +130,13 @@ with col1:
     )
 
     st.altair_chart(chart1 + chart2, use_container_width=True, theme="streamlit")
+    start_btn = st.button('Show Temperature Change Animation')
+
+    if start_btn:
+        for i in range(120, -5, -5):
+            lines = plot_animation(coax, i)
+            my_chart = my_chart.altair_chart(lines, use_container_width=True, theme="streamlit")
+            time.sleep(0.1)
 
     display_system_levels_checkbox = st.checkbox(" Display System Levels", value=False)
 
