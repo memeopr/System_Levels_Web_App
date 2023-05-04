@@ -35,6 +35,11 @@ def load_cable_100m():
     return pd.read_csv("new_coax_db_per_100_meters.csv", encoding="UTF-8")
 
 
+@st.cache_data
+def load_cable_descriptions():
+    return pd.read_csv("cable_descriptions.csv", encoding="UTF-8")
+
+
 st.title("Coax Cable Loss vs Frequency")
 st.subheader(":green[A Web APP to Visualize CATV Coaxial Cable Loss vs. Frequency.]")
 
@@ -42,16 +47,20 @@ st.divider()
 distance_units = st.radio(":blue[Select Length Units]", options=["Feet", "Meters"])
 distance = st.number_input(f":blue[Enter Cable length in {distance_units}]", value=200.0)
 st.divider()
-if distance_units == "Meters":
-    coax_data = load_cable_100m()
-else:
+
+if distance_units == "Feet":
     coax_data = load_cable_data_100f()
+else:
+    coax_data = load_cable_100m()
+
+cable_descriptions = load_cable_descriptions()
 
 cable_types = list(coax_data.columns.values)[1:]
 
 index_val = cable_types.index("QR® 540 JCAT 3G AJ SM")
 
 coax_selected = st.selectbox(":blue[Select Coax Cable]", options=cable_types, index=index_val)
+st.info(cable_descriptions[cable_descriptions["Part Name"] == coax_selected]["Description"].iloc[0])
 st.divider()
 
 coax = coax_data.loc[:, ["Frequency", coax_selected]]
